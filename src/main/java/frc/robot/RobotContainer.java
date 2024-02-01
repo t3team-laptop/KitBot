@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -21,16 +22,13 @@ public class RobotContainer {
 
     /* Controllers */
     private final XboxController baseDriver = new XboxController(0);
-    private final XboxController armDriver = new XboxController(1);
-
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(baseDriver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
+    /* Driver Buttons */    
+    private final JoystickButton intakeButton = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton outtakeButton = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     private final Shooter shooter = new Shooter();
@@ -42,7 +40,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        
+
         driveTrain.setDefaultCommand(
         new RunCommand(
             () ->
@@ -56,25 +54,15 @@ public class RobotContainer {
         intake.addRequirements(shooter);
 
          // Declare Driver Controller Buttons
-         DA = new JoystickButton(baseDriver, 1);
-         DB = new JoystickButton(baseDriver, 2);
-         DX = new JoystickButton(baseDriver, 3);
-         DY = new JoystickButton(baseDriver, 4);
-         DLB = new JoystickButton(baseDriver, 5);
-         DRB = new JoystickButton(baseDriver, 6);
-         DM1 = new JoystickButton(baseDriver, 7);
-         DM2 = new JoystickButton(baseDriver, 8);
+        DA = new JoystickButton(baseDriver, 1);
+        DB = new JoystickButton(baseDriver, 2);
+        DX = new JoystickButton(baseDriver, 3);
+        DY = new JoystickButton(baseDriver, 4);
+        DLB = new JoystickButton(baseDriver, 5);
+        DRB = new JoystickButton(baseDriver, 6);
+        DM1 = new JoystickButton(baseDriver, 7);
+        DM2 = new JoystickButton(baseDriver, 8);
  
-         // Declare Arm Controller Buttons
-         AA = new JoystickButton(armDriver, 1);
-         AB = new JoystickButton(armDriver, 2);
-         AX = new JoystickButton(armDriver, 3);
-         AY = new JoystickButton(armDriver, 4);
-         ALB = new JoystickButton(armDriver, 5);
-         ARB = new JoystickButton(armDriver, 6);
-         AM1 = new JoystickButton(armDriver, 8);
-         AM2 = new JoystickButton(armDriver, 10);
-
         //NamedCommands.registerCommand("shoot", shootIntoSpeaker);
 
 
@@ -107,14 +95,17 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {         
-        //DLB.whileTrue(leftClimberDown);
-        DA.whileTrue(shoot);
-        DB.whileTrue(intake);
-      }
+        intakeButton.whileTrue(intake);
+        outtakeButton.whileTrue(shoot);
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
+    public Command getAutonomousCommand() {
+        // An example command will be run in autonomous
+        return Autos.exampleAuto(driveTrain);
+    }
 }
