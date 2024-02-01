@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -15,26 +14,26 @@ import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
 
   private CANSparkMax Motor0;
-  //private CANSparkMax Motor1;
+  private CANSparkMax Motor1;
   
   public Shooter() {
     Motor0 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_0, MotorType.kBrushless);
-    //Motor1 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_1, MotorType.kBrushed);
+    Motor1 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_1, MotorType.kBrushed);
     Motor0.restoreFactoryDefaults();
-    //Motor1.restoreFactoryDefaults();
+    Motor1.restoreFactoryDefaults();
     Motor0.setIdleMode(IdleMode.kCoast);
-    //Motor1.setIdleMode(IdleMode.kCoast);
+    Motor1.setIdleMode(IdleMode.kCoast);
 
   }
 
   public void setShooterSpeed(double speed) {
     Motor0.set(speed);
-    //Motor1.set(speed);
+    Motor1.set(speed);
   }
 
   public void stopShooter() {
     Motor0.stopMotor();
-    //Motor1.stopMotor();
+    Motor1.stopMotor();
   }
 
 

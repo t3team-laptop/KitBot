@@ -19,8 +19,19 @@ public final class Constants {
 
   public static class ShooterConstants {
     public static final int kMotor_ID_0 = 17; 
-    //public static final int kMotor_ID_1 = 0;
+    public static final int kMotor_ID_1 = 13;
     public static final double kShooterSpeed = 1;
     public static final double kIntakerSpeed = -.5;
+  }
+
+  public static class DrivetrainConstants { // TODO Get ids
+    // PWM ports/CAN IDs for motor controllers
+    public static final int kLeftRearID = 1;
+    public static final int kLeftFrontID = 2;
+    public static final int kRightRearID = 3;
+    public static final int kRightFrontID = 4;
+
+    // Current limit for drivetrain motors
+    public static final int kCurrentLimit = 60;
   }
 }
