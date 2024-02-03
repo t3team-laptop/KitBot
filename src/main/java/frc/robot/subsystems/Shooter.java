@@ -17,7 +17,7 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax Motor1;
   
   public Shooter() {
-    Motor0 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_0, MotorType.kBrushless);
+    Motor0 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_0, MotorType.kBrushed);
     Motor1 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_1, MotorType.kBrushed);
     Motor0.restoreFactoryDefaults();
     Motor1.restoreFactoryDefaults();
@@ -35,9 +35,7 @@ public class Shooter extends SubsystemBase {
     Motor0.stopMotor();
     Motor1.stopMotor();
   }
-
-
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

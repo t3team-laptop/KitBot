@@ -19,12 +19,13 @@ public final class Constants {
 
   public static class ShooterConstants {
     // IDS
-    public static final int kMotor_ID_0 = 17; // TODO Get Shooter ids
-    public static final int kMotor_ID_1 = 13;
+    public static final int kMotor_ID_0 = 5; // TODO Get Shooter ids
+    public static final int kMotor_ID_1 = 6;
 
     // SPEEDS
-    public static final double kShooterSpeed = 1;
+    public static final double kShooterAmpSpeed = .7;
     public static final double kIntakerSpeed = -.5;
+    public static final double kShooterSpeakerSpeed = 1;
   }
 
   public static class DrivetrainConstants {
@@ -35,7 +36,7 @@ public final class Constants {
     public static final int kRightFrontID = 4;
 
     // CURRENT LIMIT
-    public static final int kCurrentLimit = 60; // TODO ask santi
+    public static final int kCurrentLimit = 40; // TODO IF NOT ENOUGH, GO TO 60
 
 
   }

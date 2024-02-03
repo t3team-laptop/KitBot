@@ -26,16 +26,13 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
-    /* Driver Buttons */    
-    private final JoystickButton intakeButton = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton outtakeButton = new JoystickButton(baseDriver, XboxController.Button.kLeftBumper.value);
-
     /* Subsystems */
     private final Shooter shooter = new Shooter();
     private final DriveTrain driveTrain = new DriveTrain();
 
     /* Commands */
-    private final Shoot shoot;
+    private final ShootAmp shootAmp;
+    private final ShootSpeaker shootSpeaker;
     private final Intake intake;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -48,8 +45,10 @@ public class RobotContainer {
                     -baseDriver.getRawAxis(translationAxis), baseDriver.getRawAxis(rotationAxis)),
             driveTrain));
 
-        shoot = new Shoot(shooter);
-        shoot.addRequirements(shooter);
+        shootAmp = new ShootAmp(shooter);
+        shootAmp.addRequirements(shooter);
+        shootSpeaker = new ShootSpeaker(shooter);
+        shootAmp.addRequirements(shooter);
         intake = new Intake(shooter);
         intake.addRequirements(shooter);
 
@@ -95,8 +94,9 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {         
-        intakeButton.whileTrue(intake);
-        outtakeButton.whileTrue(shoot);
+        DY.whileTrue(intake);
+        DA.whileTrue(shootAmp);
+        DB.whileTrue(shootSpeaker);
     }
 
     /**
