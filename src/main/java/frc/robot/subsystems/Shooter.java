@@ -17,10 +17,16 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax Motor1;
   
   public Shooter() {
+
+    //define
     Motor0 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_0, MotorType.kBrushed);
     Motor1 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_1, MotorType.kBrushed);
+
+    //restore defaults
     Motor0.restoreFactoryDefaults();
     Motor1.restoreFactoryDefaults();
+
+    //idle mode
     Motor0.setIdleMode(IdleMode.kCoast);
     Motor1.setIdleMode(IdleMode.kCoast);
 

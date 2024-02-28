@@ -14,10 +14,15 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
+
+    // CONTROLLER
     public static final int kDriverControllerPort = 0;
+    public static final double kStickDeadband = .01;
+
   }
 
   public static class ShooterConstants {
+
     // IDS
     public static final int kMotor_ID_0 = 5; // TODO Get Shooter ids
     public static final int kMotor_ID_1 = 6;
@@ -26,9 +31,11 @@ public final class Constants {
     public static final double kShooterAmpSpeed = .7;
     public static final double kIntakerSpeed = -.5;
     public static final double kShooterSpeakerSpeed = 1;
+
   }
 
   public static class DrivetrainConstants {
+    
     // IDS
     public static final int kLeftRearID = 1; // TODO Get MotorTrain ids
     public static final int kLeftFrontID = 2;
@@ -37,7 +44,6 @@ public final class Constants {
 
     // CURRENT LIMIT
     public static final int kCurrentLimit = 40; // TODO IF NOT ENOUGH, GO TO 60
-
 
   }
 }
