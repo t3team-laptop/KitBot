@@ -25,13 +25,13 @@ public class ShootAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setShooterSpeed(Constants.ShooterConstants.kShooterAmpSpeed);
+    shooter.setTopMotorSpeed(Constants.ShooterConstants.kShooterAmpSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
+    shooter.stopTopMotor();
   }
 
   // Returns true when the command should end.

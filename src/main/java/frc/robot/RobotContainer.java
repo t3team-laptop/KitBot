@@ -22,6 +22,7 @@ public class RobotContainer {
 
     /* Controllers */
     private final XboxController baseDriver = new XboxController(0);
+
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -34,6 +35,7 @@ public class RobotContainer {
     private final ShootAmp shootAmp;
     private final ShootSpeaker shootSpeaker;
     private final Intake intake;
+    private final Feed feed;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -45,10 +47,12 @@ public class RobotContainer {
                     -baseDriver.getRawAxis(translationAxis), baseDriver.getRawAxis(rotationAxis)),
             driveTrain));
 
+        feed = new Feed(shooter);
+        feed.addRequirements(shooter);
         shootAmp = new ShootAmp(shooter);
         shootAmp.addRequirements(shooter);
         shootSpeaker = new ShootSpeaker(shooter);
-        shootAmp.addRequirements(shooter);
+        shootSpeaker.addRequirements(shooter);
         intake = new Intake(shooter);
         intake.addRequirements(shooter);
 
@@ -61,30 +65,8 @@ public class RobotContainer {
         DRB = new JoystickButton(baseDriver, 6);
         DM1 = new JoystickButton(baseDriver, 7);
         DM2 = new JoystickButton(baseDriver, 8);
- 
-        //NamedCommands.registerCommand("shoot", shootIntoSpeaker);
 
-
-        // Configure the button bindings
         configureButtonBindings();
-/* 
-        SmartDashboard.putData("On-the-fly path", Commands.runOnce(() ->{
-            Pose2d currentPose = s_Swerve.getPose();
-
-            Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-            Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2,0)), new Rotation2d());
-            List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
-
-            PathPlannerPath path = new PathPlannerPath(
-            bezierPoints,
-             new PathConstraints(3, 3, 2*Math.PI, 4*Math.PI),
-             new GoalEndState(0, Rotation2d.fromDegrees(0))
-            );
-            path.preventFlipping = true;
-
-            AutoBuilder.followPath(path).schedule();
-        }));
-        */
     }
 
     /**
@@ -95,8 +77,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {         
         DY.whileTrue(intake);
-        DA.whileTrue(shootAmp);
-        DB.whileTrue(shootSpeaker);
+        DB.whileTrue(shootAmp);
+        DA.whileTrue(shootSpeaker);
+        DRB.whileTrue(feed);
     }
 
     /**

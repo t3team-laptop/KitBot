@@ -24,13 +24,14 @@ public final class Constants {
   public static class ShooterConstants {
 
     // IDS
-    public static final int kMotor_ID_0 = 5; // TODO Get Shooter ids
-    public static final int kMotor_ID_1 = 6;
+    public static final int kMotor_ID_TOP = 5; // TODO Get Shooter ids
+    public static final int kMotor_ID_BOTTOM = 6;
 
     // SPEEDS
     public static final double kShooterAmpSpeed = .7;
-    public static final double kIntakerSpeed = -.5;
+    public static final double kIntakerSpeed = -1;
     public static final double kShooterSpeakerSpeed = 1;
+    public static final double kFeederSpeed = 1;
 
   }
 

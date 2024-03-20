@@ -13,33 +13,49 @@ import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
 
-  private CANSparkMax Motor0;
-  private CANSparkMax Motor1;
+  private CANSparkMax TopMotor;
+  private CANSparkMax BottomMotor;
   
   public Shooter() {
 
     //define
-    Motor0 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_0, MotorType.kBrushed);
-    Motor1 = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_1, MotorType.kBrushed);
+    TopMotor = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_TOP, MotorType.kBrushed);
+    BottomMotor = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_BOTTOM, MotorType.kBrushed);
 
     //restore defaults
-    Motor0.restoreFactoryDefaults();
-    Motor1.restoreFactoryDefaults();
+    TopMotor.restoreFactoryDefaults();
+    BottomMotor.restoreFactoryDefaults();
 
     //idle mode
-    Motor0.setIdleMode(IdleMode.kCoast);
-    Motor1.setIdleMode(IdleMode.kCoast);
+    TopMotor.setIdleMode(IdleMode.kCoast);
+    BottomMotor.setIdleMode(IdleMode.kCoast);
 
   }
 
   public void setShooterSpeed(double speed) {
-    Motor0.set(speed);
-    Motor1.set(speed);
+    TopMotor.set(speed);
+    BottomMotor.set(speed);
   }
 
   public void stopShooter() {
-    Motor0.stopMotor();
-    Motor1.stopMotor();
+    TopMotor.stopMotor();
+    BottomMotor.stopMotor();
+  }
+
+  public void setTopMotorSpeed(double speed) {
+    TopMotor.set(speed);
+  }
+
+  public void setBottomMotorSpeed(double speed) {
+    BottomMotor.set(speed);
+  }
+
+  public void stopTopMotor() {
+    TopMotor.stopMotor();
+  }
+
+  public void stopBottomMotor() {
+    BottomMotor.stopMotor();
   }
   
   @Override
