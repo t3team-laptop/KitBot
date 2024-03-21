@@ -28,7 +28,7 @@ public final class Constants {
     public static final int kMotor_ID_BOTTOM = 6;
 
     // SPEEDS
-    public static final double kShooterAmpSpeed = .7;
+    public static final double kShooterAmpSpeed = .2;
     public static final double kIntakerSpeed = -1;
     public static final double kShooterSpeakerSpeed = 1;
     public static final double kFeederSpeed = 1;
