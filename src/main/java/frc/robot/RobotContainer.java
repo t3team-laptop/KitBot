@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.*;
@@ -16,12 +17,9 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    /* Button Labels */
-    JoystickButton DA, DB, DX, DY, DLB, DRB, DRT, DLT, DM1, DM2;
-    JoystickButton AA, AB, AX, AY, ALB, ARB, ALT, ART, AM1, AM2;
 
     /* Controllers */
-    private final XboxController baseDriver = new XboxController(0);
+    private final CommandXboxController baseDriver = new CommandXboxController(0);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -56,16 +54,6 @@ public class RobotContainer {
         intake = new Intake(shooter);
         intake.addRequirements(shooter);
 
-         // Declare Driver Controller Buttons
-        DA = new JoystickButton(baseDriver, 1);
-        DB = new JoystickButton(baseDriver, 2);
-        DX = new JoystickButton(baseDriver, 3);
-        DY = new JoystickButton(baseDriver, 4);
-        DLB = new JoystickButton(baseDriver, 5);
-        DRB = new JoystickButton(baseDriver, 6);
-        DM1 = new JoystickButton(baseDriver, 7);
-        DM2 = new JoystickButton(baseDriver, 8);
-
         configureButtonBindings();
     }
 
@@ -76,10 +64,10 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {         
-        DY.whileTrue(intake);
-        DB.whileTrue(shootAmp);
-        DA.whileTrue(shootSpeaker);
-        DRB.whileTrue(feed);
+        baseDriver.y().whileTrue(intake);
+        baseDriver.leftTrigger(0.15).whileTrue(shootAmp);
+        baseDriver.rightTrigger(0.15).whileTrue(shootSpeaker);
+        baseDriver.leftBumper().whileTrue(feed);
     }
 
     /**
