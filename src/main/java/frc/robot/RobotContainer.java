@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -20,6 +19,7 @@ public class RobotContainer {
 
     /* Controllers */
     private final CommandXboxController baseDriver = new CommandXboxController(0);
+    private final CommandXboxController shooterOperator = new CommandXboxController(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -64,10 +64,10 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {         
-        baseDriver.y().whileTrue(intake);
-        baseDriver.leftTrigger(0.15).whileTrue(shootAmp);
-        baseDriver.rightTrigger(0.15).whileTrue(shootSpeaker);
-        baseDriver.leftBumper().whileTrue(feed);
+        shooterOperator.y().whileTrue(intake);
+        shooterOperator.leftTrigger(0.15).whileTrue(shootAmp);
+        shooterOperator.rightTrigger(0.15).whileTrue(shootSpeaker);
+        shooterOperator.leftBumper().whileTrue(feed);
     }
 
     /**
