@@ -18,8 +18,8 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
 
     /* Controllers */
-    private final CommandXboxController baseDriver = new CommandXboxController(0);
-    private final CommandXboxController shooterOperator = new CommandXboxController(1);
+    private final CommandXboxController baseDriver = new CommandXboxController(Constants.ControllerConstants.kDriverControllerPort);
+    private final CommandXboxController shooterOperator = new CommandXboxController(Constants.ControllerConstants.kOperatorControllerPort);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
