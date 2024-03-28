@@ -46,7 +46,7 @@ public final class Constants {
     public static final int kRightFrontID = 4;
 
     // CURRENT LIMIT
-    public static final int kCurrentLimit = 20; // TODO IF NOT ENOUGH, GO TO 60
+    public static final int kCurrentLimit = 40; // TODO IF NOT ENOUGH, GO TO 60
 
   }
 }

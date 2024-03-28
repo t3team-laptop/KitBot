@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -70,13 +69,4 @@ public class RobotContainer {
         shooterOperator.leftBumper().whileTrue(feed);
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(driveTrain);
-    }
 }
