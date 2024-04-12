@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
 import frc.robot.commands.*;
+import frc.robot.limelight.LimeLight;
 import frc.robot.subsystems.*;
 
 /**
@@ -19,6 +19,7 @@ public class RobotContainer {
     /* Controllers */
     private final CommandXboxController baseDriver = new CommandXboxController(Constants.ControllerConstants.kDriverControllerPort);
     private final CommandXboxController shooterOperator = new CommandXboxController(Constants.ControllerConstants.kOperatorControllerPort);
+    private final LimeLight limeLight = new LimeLight();
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -67,6 +68,10 @@ public class RobotContainer {
         shooterOperator.leftTrigger(0.15).whileTrue(shootAmp);
         shooterOperator.rightTrigger(0.15).whileTrue(shootSpeaker);
         shooterOperator.leftBumper().whileTrue(feed);
+        baseDriver.x().whileTrue(new Drive_LimeLight_Targeting(()-> -baseDriver.getLeftY(),
+                                                               ()->baseDriver.getRightX(),
+                                                                limeLight,
+                                                                driveTrain));
     }
 
 }
