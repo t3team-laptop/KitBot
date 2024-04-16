@@ -18,7 +18,6 @@ public final class Constants {
 
     // CONTROLLER
     public static final int kDriverControllerPort = 0;
-    public static final int kOperatorControllerPort = 1;
     public static final double kStickDeadband = .01;
 
   }
@@ -26,7 +25,7 @@ public final class Constants {
   public static class ShooterConstants {
 
     // IDS
-    public static final int kMotor_ID_TOP = 5; // TODO Get Shooter ids
+    public static final int kMotor_ID_TOP = 5;
     public static final int kMotor_ID_BOTTOM = 6;
 
     // SPEEDS
@@ -40,13 +39,20 @@ public final class Constants {
   public static class DrivetrainConstants {
     
     // IDS
-    public static final int kLeftRearID = 1; // TODO Get MotorTrain ids
+    public static final int kLeftRearID = 1;
     public static final int kLeftFrontID = 2;
     public static final int kRightRearID = 3;
     public static final int kRightFrontID = 4;
 
     // CURRENT LIMIT
-    public static final int kCurrentLimit = 40; // TODO IF NOT ENOUGH, GO TO 60
+    public static final int kCurrentLimit = 40;
+
+  }
+
+  public static class VisionConstants {
+
+    public static final int kLimeLightMountingHeight = 0; // TODO Find height (INCHES) from center of lens to ground
+    public static final int kLimeLightMountingDegrees  = 0;
 
   }
 }

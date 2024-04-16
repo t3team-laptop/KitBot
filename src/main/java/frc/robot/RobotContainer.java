@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.*;
@@ -18,7 +17,6 @@ public class RobotContainer {
 
     /* Controllers */
     private final CommandXboxController baseDriver = new CommandXboxController(Constants.ControllerConstants.kDriverControllerPort);
-    private final CommandXboxController shooterOperator = new CommandXboxController(Constants.ControllerConstants.kOperatorControllerPort);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -27,6 +25,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Shooter shooter = new Shooter();
     private final DriveTrain driveTrain = new DriveTrain();
+    private final Vision vision = new Vision();
 
     /* Commands */
     private final ShootAmp shootAmp;
@@ -38,11 +37,12 @@ public class RobotContainer {
     public RobotContainer() {
 
         driveTrain.setDefaultCommand(
-        new RunCommand(
-            () ->
-                driveTrain.arcadeDrive(
-                    -baseDriver.getRawAxis(translationAxis), baseDriver.getRawAxis(rotationAxis)),
-            driveTrain));
+            new TeleopDrive(
+                driveTrain, 
+                () -> -baseDriver.getRawAxis(translationAxis), 
+                () -> -baseDriver.getRawAxis(rotationAxis)
+            )
+        );
 
         feed = new Feed(shooter);
         feed.addRequirements(shooter);
@@ -63,10 +63,16 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {         
-        shooterOperator.y().whileTrue(intake);
-        shooterOperator.leftTrigger(0.15).whileTrue(shootAmp);
-        shooterOperator.rightTrigger(0.15).whileTrue(shootSpeaker);
-        shooterOperator.leftBumper().whileTrue(feed);
+        baseDriver.y().whileTrue(intake);
+        baseDriver.leftTrigger(0.15).whileTrue(shootAmp);
+        baseDriver.rightTrigger(0.15).whileTrue(shootSpeaker);
+        baseDriver.leftBumper().whileTrue(feed);
+
+        baseDriver.a().whileTrue(new TeleopDrive(
+                driveTrain,
+                () -> -baseDriver.getRawAxis(translationAxis),
+                () -> vision.calculateRotationalOffsetSpeaker()
+        ));
     }
 
 }
