@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -25,9 +21,10 @@ public class Vision extends SubsystemBase {
   private double v; // 1 if valid target exists. 0 if no valid targets exist
   private double area; // Target Area (0% of image to 100% of image)
 
-  private double distanceToTarget;
+  private double distalOffsetToTarget;
 
-  PIDController rotationController = new PIDController(.025, 0, 0);
+  PIDController rotationController = new PIDController(.025, .01, 0); // TODO tune pid
+  PIDController translationController = new PIDController(.025, 0, 0); // TODO tune pid
   
   /** Creates a new Vision. */
   public Vision() {
@@ -40,29 +37,17 @@ public class Vision extends SubsystemBase {
     this.table.getEntry("ledMode").setNumber(3);
   }
 
-  public double getDistanceToTarget(){ // old titan code
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = Constants.VisionConstants.kLimeLightMountingDegrees;
+  public double calculateDistalOffset(double targetHeight) { // TODO find inches correlation through testing
 
-    // distance from the center of the Limelight lens to the floor
-    double limelightLensHeight = Constants.VisionConstants.kLimeLightMountingHeight; // inches
-
-    // distance from the target to the floor
-    double targetHeight = 104.0;
-
-    double angleToTargetDegrees = limelightMountAngleDegrees + y;
+    double angleToTargetDegrees = Constants.VisionConstants.kLimeLightMountingDegrees + y;
     double angleToTargetRadians = angleToTargetDegrees * (Math.PI / 180.0);
 
-    //calculate distance
-    distanceToTarget = (targetHeight - limelightLensHeight)/Math.tan(angleToTargetRadians);
+    distalOffsetToTarget = (targetHeight - Constants.VisionConstants.kLimeLightMountingHeight)/Math.tan(angleToTargetRadians);
 
-    //post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightY", y);
-
-    return distanceToTarget;
+    return distalOffsetToTarget;
   }
 
-  public double calculateRotationalOffsetSpeaker() { //TODO make the rotation calculation
+  public double calculateRotationalOffsetSpeaker() {
     double rotationSpeed = 0;
 
     if(hasTarget()) {
@@ -74,16 +59,18 @@ public class Vision extends SubsystemBase {
     return rotationSpeed;
   }
 
-  public double calculateTransitionalOffsetSpeaker() { //TODO make the rotation calculation
-    double rotationSpeed = 0;
+  public double calculateTransitionalOffsetSpeaker(double desiredDistanceInches) {
+    double translationSpeed = 0;
+
+    double distanceInInches = calculateDistalOffset(Constants.VisionConstants.kSpeakerTapeHeight) * 1; //TODO Correlate x incorperated calculation to inches
 
     if(hasTarget()) {
-      rotationSpeed = rotationController.calculate(x, 0);
+      translationSpeed = translationController.calculate(distanceInInches, desiredDistanceInches);
     }else {
-      rotationSpeed = 0;
+      translationSpeed = 0;
     }
 
-    return rotationSpeed;
+    return translationSpeed;
   }
 
   public boolean hasTarget(){
@@ -103,8 +90,9 @@ public class Vision extends SubsystemBase {
 
     SmartDashboard.putNumber("Target X Position Relative to LimeLight", x);
     SmartDashboard.putNumber("Target Y Position Relative to LimeLight", y);
-    SmartDashboard.putBoolean("Target X Position Relative to LimeLight", hasTarget());
+    SmartDashboard.putBoolean("Limelight has Target", hasTarget());
     SmartDashboard.putNumber("Percentage of LimeLight Feed Covered by Target", area);
+    SmartDashboard.putNumber("Distance to Target", distalOffsetToTarget);
   }
 
 }
