@@ -14,15 +14,12 @@ public class Shooter extends SubsystemBase {
   
   public Shooter() {
 
-    //define
     TopMotor = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_TOP, MotorType.kBrushed);
     BottomMotor = new CANSparkMax(Constants.ShooterConstants.kMotor_ID_BOTTOM, MotorType.kBrushed);
 
-    //restore defaults
     TopMotor.restoreFactoryDefaults();
     BottomMotor.restoreFactoryDefaults();
 
-    //idle mode
     TopMotor.setIdleMode(IdleMode.kCoast);
     BottomMotor.setIdleMode(IdleMode.kCoast);
 
@@ -55,7 +52,5 @@ public class Shooter extends SubsystemBase {
   }
   
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  public void periodic() {}
 }

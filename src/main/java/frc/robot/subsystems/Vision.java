@@ -26,7 +26,6 @@ public class Vision extends SubsystemBase {
   PIDController rotationController = new PIDController(.025, .01, 0); // TODO tune pid
   PIDController translationController = new PIDController(.025, 0, 0); // TODO tune pid
   
-  /** Creates a new Vision. */
   public Vision() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
     table = NetworkTableInstance.getDefault().getTable("limelight") ;
