@@ -1,11 +1,14 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.Autos;
 
 public class RobotContainer {
 
@@ -26,6 +29,9 @@ public class RobotContainer {
     private final ShootSpeaker shootSpeaker;
     private final Intake intake;
     private final Feed feed;
+
+    /* Autos */
+    private final SendableChooser<Command> autoChooser;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -48,6 +54,9 @@ public class RobotContainer {
         intake.addRequirements(shooter);
 
         configureButtonBindings();
+        
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     private void configureButtonBindings() {         
@@ -58,13 +67,13 @@ public class RobotContainer {
 
         baseDriver.a().whileTrue(new TeleopDrive(
                 driveTrain,
-                () -> -baseDriver.getRawAxis(translationAxis),
-                () -> -vision.calculateRotationalOffsetSpeaker()
+                () -> -vision.calculateTransitionalOffsetSpeaker() - baseDriver.getRawAxis(translationAxis),
+                () -> -vision.calculateRotationalOffsetSpeaker() - baseDriver.getRawAxis(rotationAxis)
         ));
     }
 
     public Command getAutonomousCommand() {
-        return Autos.exampleAuto(driveTrain);
+        return autoChooser.getSelected();
     }
 
 }
