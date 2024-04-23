@@ -29,7 +29,6 @@ public class SpeakerAlign extends Command {
     driveTrain.arcadeDrive(
       vision.calculateTransitionalOffset(desiredDistance, targetHeight), 
       vision.calculateRotationalOffsetSpeaker());
-
   }
 
   @Override
@@ -49,7 +48,7 @@ public class SpeakerAlign extends Command {
 
     //Check if values within error threshold
     return (roationalOffset >= -rotationalErrorThreshold && roationalOffset <= rotationalErrorThreshold) && 
-    (distanceToSpeaer >= -translationalErrorThreshold && distanceToSpeaer <= translationalErrorThreshold);
-    
+    (distanceToSpeaer >= -translationalErrorThreshold && distanceToSpeaer <= translationalErrorThreshold);  
   }
+
 }

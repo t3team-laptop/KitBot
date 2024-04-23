@@ -16,7 +16,7 @@ public class Vision extends SubsystemBase {
   private NetworkTableEntry ta;
   private NetworkTableEntry tv;
 
-  public double x; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees) TODO look into y to angle conversion
+  public double x; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees)
   private double y; // Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
   private double v; // 1 if valid target exists. 0 if no valid targets exist
   private double area; // Target Area (0% of image to 100% of image)
