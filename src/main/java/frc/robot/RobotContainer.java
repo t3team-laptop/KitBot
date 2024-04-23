@@ -25,6 +25,7 @@ public class RobotContainer {
     private final ShootSpeaker shootSpeaker;
     private final Intake intake;
     private final Feed feed;
+    private final SpeakerAlign speakerAlign;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -45,6 +46,8 @@ public class RobotContainer {
         shootSpeaker.addRequirements(shooter);
         intake = new Intake(shooter);
         intake.addRequirements(shooter);
+        speakerAlign = new SpeakerAlign(driveTrain, vision);
+        speakerAlign.addRequirements(driveTrain, vision);
 
         configureButtonBindings();
     }
@@ -54,6 +57,7 @@ public class RobotContainer {
         baseDriver.leftTrigger(0.15).whileTrue(shootAmp);
         baseDriver.rightTrigger(0.15).whileTrue(shootSpeaker);
         baseDriver.leftBumper().whileTrue(feed);
+        baseDriver.x().onTrue(speakerAlign);
 
         baseDriver.a().whileTrue(new TeleopDrive(
                 driveTrain,

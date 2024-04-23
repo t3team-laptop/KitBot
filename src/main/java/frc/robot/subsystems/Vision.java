@@ -16,12 +16,12 @@ public class Vision extends SubsystemBase {
   private NetworkTableEntry ta;
   private NetworkTableEntry tv;
 
-  private double x; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees) TODO look into y to angle conversion
+  public double x; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees) TODO look into y to angle conversion
   private double y; // Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
   private double v; // 1 if valid target exists. 0 if no valid targets exist
   private double area; // Target Area (0% of image to 100% of image)
 
-  private double distalOffsetToTarget;
+  private double distalOffsetToSpeaker;
 
   PIDController rotationController = new PIDController(.25, .00, .01); // TODO tune pid
   PIDController translationController = new PIDController(.025, 0, 0); // TODO tune pid
@@ -36,25 +36,36 @@ public class Vision extends SubsystemBase {
     this.table.getEntry("ledMode").setNumber(3);
   }
 
-  public double calculateDistalOffset(double targetHeight) {
+  public double[] getValues() {
+    return new double[] {x, y, area, v, distalOffsetToSpeaker};
+  }
 
-    double distalOffsetToTarget;
+  public double calculateDistalOffset(double goalHeightInches) { // Limelight Documentation Code
+    double targetOffsetAngle_Vertical = y;
 
-    double angleToTargetDegrees = Constants.VisionConstants.kLimeLightMountingDegrees + y;
-    double angleToTargetRadians = angleToTargetDegrees * (Math.PI / 180.0);
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = Constants.VisionConstants.kLimeLightMountingDegrees; 
 
-    distalOffsetToTarget = (targetHeight - Constants.VisionConstants.kLimeLightMountingHeight)/Math.tan(angleToTargetRadians);
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = Constants.VisionConstants.kLimeLightMountingHeight; 
 
-    return distalOffsetToTarget;
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+
+    return distanceFromLimelightToGoalInches;
   }
 
   public double calculateRotationalOffsetSpeaker() {
     double rotationSpeed = 0;
+    double rotationOffset = Constants.VisionConstants.kSpeakerRotationalOffset;
 
     if(hasTarget() && (x >= -3 && x <= 3)) {
       rotationSpeed = 0;
     }else if(hasTarget()) {
-      rotationSpeed = rotationController.calculate(x, Constants.VisionConstants.kSpeakerRotationalOffset);
+      rotationSpeed = rotationController.calculate(x, rotationOffset);
     }else {
       rotationSpeed = 0;
     }
@@ -62,16 +73,15 @@ public class Vision extends SubsystemBase {
     return rotationSpeed;
   }
 
-  public double calculateTransitionalOffsetSpeaker() {
+  public double calculateTransitionalOffset(double desiredDistance, double targetHeightInches) { // INCHES
     double translationSpeed;  
 
-    if(hasTarget() && (distalOffsetToTarget >= Constants.VisionConstants.kSpeakerShootingDistance-3 && distalOffsetToTarget <= Constants.VisionConstants.kSpeakerShootingDistance+3)) {
+    double currentDistance = calculateDistalOffset(targetHeightInches);
+
+    if(hasTarget() && (currentDistance >= desiredDistance-3 && currentDistance <= desiredDistance+3)) {
       translationSpeed = 0;
     }else if(hasTarget()) {
-      translationSpeed = translationController.calculate(
-          calculateDistalOffset(Constants.VisionConstants.kSpeakerTapeHeight),
-          Constants.VisionConstants.kSpeakerShootingDistance
-      );
+      translationSpeed = translationController.calculate(currentDistance, desiredDistance);
     }else {
       translationSpeed = 0;
     }
@@ -88,17 +98,23 @@ public class Vision extends SubsystemBase {
     y = ty.getDouble(0.0);
     v = tv.getDouble(0.0);   
     area = ta.getDouble(0.0);
-    distalOffsetToTarget = calculateDistalOffset(Constants.VisionConstants.kSpeakerTapeHeight);
+
+    if(hasTarget()) {
+      distalOffsetToSpeaker = calculateDistalOffset(Constants.VisionConstants.kSpeakerTargetHeight);
+    }else{
+      distalOffsetToSpeaker = 0;
+    }
   }
 
   @Override
   public void periodic() {
     updateVals();
+
     SmartDashboard.putNumber("LimeLightX", x);
     SmartDashboard.putNumber("LimeLightY", y);
     SmartDashboard.putNumber("LimeLightV", v);
     SmartDashboard.putNumber("LimeLightA", area);
-    SmartDashboard.putNumber("Distance", distalOffsetToTarget);
+    SmartDashboard.putNumber("SpeakerDistance", distalOffsetToSpeaker);
   }
 
 }

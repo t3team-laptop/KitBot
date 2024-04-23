@@ -44,11 +44,13 @@ public final class Constants {
     public static final double kLimeLightMountingDegrees  = 0;
 
     // FIELD ELEMENTS
-    public static final double kSpeakerTapeHeight = 34;
+    public static final double kSpeakerTargetHeight = 61.5;
     public static final double kSpeakerShootingDistance = 40; // TODO find optimal shooting distance from speaker
 
-    // OFFSETS
+    // OFFSETS & THRESHOLDS
     public static final double kSpeakerRotationalOffset = 0;
+    public static final double kTranslationalErrorThreshold = 5;
+    public static final double kRotationalErrorThreshold = 3;
 
   }
 }
