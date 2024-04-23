@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
   
-  DifferentialDrive m_drivetrain;
+  DifferentialDrive driveTrain;
   private CANSparkMax leftFront;
   private CANSparkMax leftRear;
   private CANSparkMax rightFront;
@@ -33,13 +33,14 @@ public class DriveTrain extends SubsystemBase {
     leftFront.setInverted(true);
     rightFront.setInverted(false);
 
-    m_drivetrain = new DifferentialDrive(leftFront, rightFront);
+    driveTrain = new DifferentialDrive(leftFront, rightFront);
   }
 
   public void arcadeDrive(double speed, double rotation) {
-    m_drivetrain.arcadeDrive(speed, rotation*-1);
+    driveTrain.arcadeDrive(speed, rotation*-1);
   }
 
   @Override
   public void periodic() {}
+
 }

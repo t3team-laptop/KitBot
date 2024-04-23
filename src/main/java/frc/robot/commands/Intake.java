@@ -30,4 +30,5 @@ public class Intake extends Command {
   public boolean isFinished() {
     return false;
   }
+  
 }

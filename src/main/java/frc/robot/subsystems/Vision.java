@@ -23,7 +23,7 @@ public class Vision extends SubsystemBase {
 
   private double distalOffsetToTarget;
 
-  PIDController rotationController = new PIDController(.025, .01, 0); // TODO tune pid
+  PIDController rotationController = new PIDController(.25, .00, .01); // TODO tune pid
   PIDController translationController = new PIDController(.025, 0, 0); // TODO tune pid
   
   public Vision() {
@@ -51,8 +51,10 @@ public class Vision extends SubsystemBase {
   public double calculateRotationalOffsetSpeaker() {
     double rotationSpeed = 0;
 
-    if(hasTarget()) {
-      rotationSpeed = rotationController.calculate(x, 0 + Constants.VisionConstants.kSpeakerRotationalOffset);
+    if(hasTarget() && (x >= -3 && x <= 3)) {
+      rotationSpeed = 0;
+    }else if(hasTarget()) {
+      rotationSpeed = rotationController.calculate(x, Constants.VisionConstants.kSpeakerRotationalOffset);
     }else {
       rotationSpeed = 0;
     }
@@ -63,7 +65,9 @@ public class Vision extends SubsystemBase {
   public double calculateTransitionalOffsetSpeaker() {
     double translationSpeed;  
 
-    if(hasTarget()) {
+    if(hasTarget() && (distalOffsetToTarget >= Constants.VisionConstants.kSpeakerShootingDistance-3 && distalOffsetToTarget <= Constants.VisionConstants.kSpeakerShootingDistance+3)) {
+      translationSpeed = 0;
+    }else if(hasTarget()) {
       translationSpeed = translationController.calculate(
           calculateDistalOffset(Constants.VisionConstants.kSpeakerTapeHeight),
           Constants.VisionConstants.kSpeakerShootingDistance

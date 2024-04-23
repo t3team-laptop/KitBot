@@ -40,12 +40,12 @@ public final class Constants {
   public static class VisionConstants {
 
     // LIMELIGHT MOUNTING 
-    public static final double kLimeLightMountingHeight = 38.5; // TODO Find height (INCHES) from center of lens to ground
+    public static final double kLimeLightMountingHeight = 17.7 ; // TODO Find height (INCHES) from center of lens to ground
     public static final double kLimeLightMountingDegrees  = 0;
 
     // FIELD ELEMENTS
-    public static final double kSpeakerTapeHeight = 62.5;
-    public static final double kSpeakerShootingDistance = 100; // TODO find optimal shooting distance from speaker
+    public static final double kSpeakerTapeHeight = 34;
+    public static final double kSpeakerShootingDistance = 40; // TODO find optimal shooting distance from speaker
 
     // OFFSETS
     public static final double kSpeakerRotationalOffset = 0;

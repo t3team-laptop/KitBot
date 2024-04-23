@@ -7,6 +7,7 @@ import frc.robot.subsystems.Shooter;
 public class ShootAmp extends Command {
 
   private Shooter shooter;
+  
   public ShootAmp(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
@@ -29,4 +30,5 @@ public class ShootAmp extends Command {
   public boolean isFinished() {
     return false;
   }
+
 }

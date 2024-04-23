@@ -7,6 +7,7 @@ import frc.robot.subsystems.Shooter;
 public class ShootSpeaker extends Command {
 
   private Shooter shooter;
+
   public ShootSpeaker(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
@@ -29,4 +30,5 @@ public class ShootSpeaker extends Command {
   public boolean isFinished() {
     return false;
   }
+  
 }
