@@ -25,7 +25,7 @@ public class RobotContainer {
     private final ShootSpeaker shootSpeaker;
     private final Intake intake;
     private final Feed feed;
-    private final SpeakerAlign speakerAlign;
+    private final Align align;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -46,8 +46,8 @@ public class RobotContainer {
         shootSpeaker.addRequirements(shooter);
         intake = new Intake(shooter);
         intake.addRequirements(shooter);
-        speakerAlign = new SpeakerAlign(driveTrain, vision);
-        speakerAlign.addRequirements(driveTrain, vision);
+        align = new Align(driveTrain, vision);
+        align.addRequirements(driveTrain, vision);
 
         configureButtonBindings();
     }
@@ -57,12 +57,12 @@ public class RobotContainer {
         baseDriver.leftTrigger(0.15).whileTrue(shootAmp);
         baseDriver.rightTrigger(0.15).whileTrue(shootSpeaker);
         baseDriver.leftBumper().whileTrue(feed);
-        baseDriver.x().onTrue(speakerAlign);
+        //baseDriver.x().onTrue(speakerAlign); TODO make safe
 
         baseDriver.a().whileTrue(new TeleopDrive(
                 driveTrain,
                 () -> -baseDriver.getRawAxis(translationAxis),
-                () -> -vision.calculateRotationalOffsetSpeaker() - baseDriver.getRawAxis(rotationAxis)
+                () -> -vision.calculateRotationalOffset() - baseDriver.getRawAxis(rotationAxis)
         ));
     }
 
