@@ -40,20 +40,22 @@ public final class Constants {
   public static class VisionConstants {
 
     // LIMELIGHT MOUNTING 
-    public static final double kLimeLightMountingHeight = 23.5 ; // TODO Find height (INCHES) from center of lens to ground
-    public static final double kLimeLightMountingDegrees  = 26;
-
-    // FIELD ELEMENTS
-    public static final double kSpeakerTargetHeight = 56;
-    public static final double kAmpTargetHeight = 50;
-    public static final double kSpeakerShootingDistance = 40; // TODO find optimal shooting distance from speaker
-    public static final double kAmpShootingDistance = 20;
+    public static final double kLimeLightMountingHeight = 23.25 ; // TODO Find height (INCHES) from center of lens to ground
+    public static final double kLimeLightMountingDegrees  = 30;
 
     // OFFSETS & THRESHOLDS
     public static final double kSpeakerRotationalOffset = -20;
     public static final double kTranslationalErrorThreshold = 5;
     public static final double kRotationalErrorThreshold = 3;
     public static final double kAmpRotationalOffset = 0;
+
+    // FIELD ELEMENTS
+    public static final double kSpeakerTargetHeight = 56;
+    public static final double kAmpTargetHeight = 50;
+    public static final double kSpeakerShootingDistance = 40; // TODO find optimal shooting distance from speaker
+    public static final double kAmpShootingDistance = 20;
+    public static final double[] speaker = {kSpeakerTargetHeight, kSpeakerShootingDistance, kSpeakerRotationalOffset};
+    public static final double[] amp = {kAmpTargetHeight, kAmpShootingDistance, kAmpRotationalOffset};
 
     // PIDS
     public static final double kTranslateTolerance = 5;
@@ -65,9 +67,6 @@ public final class Constants {
     public static final double kRotateP = .035;
     public static final double kRotateI = 0;
     public static final double kRotateD = 0;
-
-
-
 
   }
 }
